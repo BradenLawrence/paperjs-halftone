@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Paper.js demo</title>
+        <script type="text/javascript" src="js/lib/paper-full.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/paperscript" canvas="myCanvas">
+            var myCircles = []
+
+            for (var y = 10; y < window.innerHeight; y+=20) {
+              myCircles[y] = []
+              for (var x = 10; x < window.innerWidth; x+=20) {
+                var myPoint = new Point( x, y )
+                myCircles[y][x] = new Path.Circle( myPoint, 3)
+                var myRed = ( x / window.innerWidth ) * 255
+                var myGreen = ( y / window.innerHeight ) * 255
+                var myBlue = ( myRed + myGreen ) / 2
+                myCircles[y][x].fillColor = "rgb(" + myRed + ", " + myGreen + ", " + myBlue + ")"
+
+              }
+            }
+            var myScale
+            function onMouseMove(event) {
+              for (var y = 10; y < window.innerHeight; y+=20) {
+                for (var x = 10; x < window.innerWidth; x+=20) {
+                    // myScale = myCircles[y][x].position.getDistance(event.point)/10
+                    // if (myScale < 1) {
+                    //   myScale = 1
+                    // } else if (myScale > 20) {
+                    //   myScale = 20
+                    // }
+                    // myCircles[y][x].bounds.height = myScale
+                    // myCircles[y][x].bounds.width = myScale
+                    myScale = 100/(myCircles[y][x].position.getDistance(event.point)/10)
+                    if (myScale < 1) {
+                      myScale = 1
+                    } else if (myScale > 28) {
+                      myScale = 28
+                    }
+                    myCircles[y][x].bounds.height = myScale
+                    myCircles[y][x].bounds.width = myScale
+                }
+              }
+            }
+        </script>
+    </head>
+    <body>
+        <canvas id="myCanvas" resize></canvas>
+    </body>
+</html>
